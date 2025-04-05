@@ -1,6 +1,7 @@
 <?php
 session_start();
-require_once('../config.php');
+require_once('../config/config.php');  // CORRECT
+link rel="stylesheet" href="../assets/css/styles.css"  // CORRECT
 require_once('auth.php');
 
 $auth = new Auth($conn);
@@ -17,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = $auth->login($username, $password);
         if ($result['success']) {
             $success = $result['message'];
-            header("Location: ../dashboard/" . $_SESSION['user_type'] . "_dashboard.php");
+            header("Location: ../dashboard/index.php");  // CORRECT - assuming you have a single dashboard file
             exit();
         } else {
             $error = $result['message'];

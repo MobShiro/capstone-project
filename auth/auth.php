@@ -1,6 +1,6 @@
 <?php
 // Remove session_start() from here since it's handled in config.php
-require_once('../config/config.php');
+require_once('../config/config.php');  // CORRECT
 
 class Auth {
     private $conn;

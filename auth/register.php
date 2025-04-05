@@ -1,7 +1,8 @@
 <?php
-require_once('../config/config.php'); // This will handle session start
+require_once('../config/config.php');
 require_once('auth.php');
 
+$page_title = 'Register';
 $auth = new Auth($conn);
 $error = '';
 $success = '';
@@ -32,23 +33,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+
+include '../includes/header.php';
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - <?php echo SITE_NAME; ?></title>
-    <link rel="stylesheet" href="../assets/css/styles.css">
-    <!-- Previous CSS styles remain the same -->
-</head>
-<body>
-    <?php include '../includes/header.php'; ?>
 
-    <div class="registration-container">
-        <!-- Previous HTML content remains the same -->
-    </div>
+<div class="form-container">
+    <h2>Create Your Account</h2>
+    <?php if ($error): ?>
+        <div class="error"><?php echo htmlspecialchars($error); ?></div>
+    <?php endif; ?>
+    <?php if ($success): ?>
+        <div class="success"><?php echo htmlspecialchars($success); ?></div>
+    <?php endif; ?>
 
-    <?php include '../includes/footer.php'; ?>
-</body>
-</html>
+    <form action="register.php" method="POST">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required 
+                   value="<?php echo isset($_POST['username']) ? htmlspecialchars($_POST['username']) : ''; ?>">
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" required
+                   value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>">
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required
+                   placeholder="At least 8 characters">
+        </div>
+
+        <div class="form-group">
+            <label for="confirm_password">Confirm Password</label>
+            <input type="password" id="confirm_password" name="confirm_password" required>
+        </div>
+
+        <div class="form-group">
+            <label for="user_type">I am a:</label>
+            <select id="user_type" name="user_type" required>
+                <option value="client" <?php echo (isset($_POST['user_type']) && $_POST['user_type'] === 'client') ? 'selected' : ''; ?>>Pet Owner</option>
+                <option value="vet" <?php echo (isset($_POST['user_type']) && $_POST['user_type'] === 'vet') ? 'selected' : ''; ?>>Veterinarian</option>
+            </select>
+        </div>
+
+        <button type="submit">Create Account</button>
+    </form>
+    <p>Already have an account? <a href="login.php">Sign in</a></p>
+</div>
+
+<?php include '../includes/footer.php'; ?>
