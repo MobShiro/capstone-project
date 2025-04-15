@@ -1,37 +1,28 @@
 <?php
-// Session configuration - MUST come before session_start()
-ini_set('session.gc_maxlifetime', 1800);  // Move this line to the top
-ini_set('session.cookie_lifetime', 1800);  // Optional: Also set cookie lifetime
-
-// Start session if not already active
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
 // Database configuration
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "vet_anywhere";
+define('DB_HOST', 'localhost');
+define('DB_USER', 'root'); // Default XAMPP username
+define('DB_PASS', '');     // Default XAMPP password
+define('DB_NAME', 'vet_anywhere');
 
-// Create connection
-try {
-    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
-    die("Connection failed: " . $e->getMessage());
-}
-
-// Define constants
-define('BASE_URL', '/vet_anywhere');
+// Application settings
 define('SITE_NAME', 'Vet Anywhere');
+define('SITE_URL', 'http://localhost/vet_anywhere');
+define('UPLOAD_PATH', __DIR__ . '/../uploads/');
+define('MAX_FILE_SIZE', 5242880); // 5MB in bytes
+define('ALLOWED_EXTENSIONS', ['jpg', 'jpeg', 'png', 'gif', 'pdf', 'doc', 'docx']);
 
-// Time zone setting
-date_default_timezone_set('UTC');
+// Email configuration (for sending reminders and notifications)
+define('MAIL_HOST', 'smtp.example.com');
+define('MAIL_PORT', 587);
+define('MAIL_USERNAME', 'noreply@vetanywhere.com');
+define('MAIL_PASSWORD', 'your_email_password');
+define('MAIL_FROM_ADDRESS', 'noreply@vetanywhere.com');
+define('MAIL_FROM_NAME', 'Vet Anywhere System');
 
-// Error reporting
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// Session settings
+define('SESSION_TIMEOUT', 1800); // 30 minutes in seconds
 
-// The session timeout setting was here before - we moved it to the top
+// Security settings
+define('HASH_COST', 10); // Cost parameter for password hashing
 ?>
